@@ -1,0 +1,45 @@
+<div class="container">
+<ng-container *ngIf="apiResponse && myFormGroup">
+  <form [formGroup]="myFormGroup" (ngSubmit)="onSubmit()">
+    <div *ngFor="let form_elem of apiResponse">
+      <div [ngSwitch]="form_elem.type">
+        <div class="form-group" *ngSwitchCase="'textBox'">
+          <label for="exampleInputEmail1">{{form_elem.label}}</label>
+          <input type="text" class="form-control" placeholder="Enter {{form_elem.key}}"
+            formControlName="{{form_elem.key}}">
+          <div class="text-danger" *ngIf="this.myFormGroup.controls[form_elem.key].invalid && submitted">
+            {{form_elem.key}} is required
+          </div>
+        </div>
+
+        <div class="form-group" *ngSwitchCase="'date'">
+          <label for="exampleInputEmail1">{{form_elem.label}}</label>
+          <input type="date" class="form-control" placeholder="Enter {{form_elem.key}}" formControlName="{{form_elem.key}}">
+          <div class="text-danger" *ngIf="this.myFormGroup.controls[form_elem.key].invalid && submitted">
+            {{form_elem.key}} is required
+          </div>
+        </div>
+        <div class="form-group" *ngSwitchCase="'number'">
+          <label for="exampleInputEmail1">{{form_elem.label}}</label>
+          <input type="number" class="form-control" placeholder="Enter {{form_elem.key}}"
+            formControlName="{{form_elem.key}}">
+          <div class="text-danger" *ngIf="this.myFormGroup.controls[form_elem.key].invalid && submitted">
+            {{form_elem.key}} is required
+          </div>
+        </div>
+       
+        <div class="form-group" *ngSwitchCase="'dropdown'">
+          <label for="inputState">{{form_elem.label}}</label>
+          <select id="inputState" class="form-control" formControlName="{{form_elem.key}}">
+            <option *ngFor="let opt of form_elem.items" [value]="opt.value"> {{opt?.text}}</option>
+          </select>
+          <div class="text-danger" *ngIf="this.myFormGroup.controls[form_elem.key].invalid && submitted">
+            {{form_elem.key}} is required
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+  </form>
+</ng-container>
+</div>
